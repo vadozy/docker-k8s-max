@@ -1,0 +1,45 @@
+version: "3.8"
+
+services:
+  mongodb:
+    image: mongo:4.4.4-bionic
+    networks:
+      - goals-network
+    volumes:
+      - mongo_data:/data/db
+    env_file:
+      - ./env/mongo.env
+
+  backend-api:
+    build: ./backend
+    image: backend-api:latest
+    networks:
+      - goals-network
+    ports:
+      - "80:80"
+    volumes:
+      - ./backend:/app
+      - ./backend/logs:/app/logs
+      - /app/node_modules
+    env_file:
+      - ./env/backend.env
+    depends_on:
+      - mongodb
+
+  frontend:
+    build: ./frontend
+    image: frontend:latest
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./frontend/src:/app/src
+    depends_on:
+      - backend-api
+    stdin_open: true
+    # tty: true
+
+networks:
+  goals-network:
+
+volumes:
+  mongo_data:
