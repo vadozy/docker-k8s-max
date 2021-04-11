@@ -1,0 +1,31 @@
+version: "3.8"
+services:
+  # mongodb:
+  #   image: "mongo:4.4.4-bionic"
+  #   volumes:
+  #     - data:/data/db
+  #   env_file:
+  #     - ./env/mongo.env
+  backend:
+    build: ./backend
+    ports:
+      - "80:80"
+    volumes:
+      - ./backend:/app
+      - /app/node_modules
+    env_file:
+      - ./env/backend.env
+    # depends_on:
+    #   - mongodb
+
+  frontend:
+    build: ./frontend
+    image: frontend:latest
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./frontend/src:/app/src
+    depends_on:
+      - backend
+    stdin_open: true
+    # tty: true
