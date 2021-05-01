@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: tasks-service
+spec:
+  selector:
+    app: tasks
+  ports:
+    - appProtocol: "TCP"
+      port: 8000 # outside port
+      targetPort: 8000 # port inside container
+  type: ClusterIP
+  # type: LoadBalancer
