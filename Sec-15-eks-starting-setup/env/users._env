@@ -1,0 +1,2 @@
+MONGODB_CONNECTION_URI=mongodb+srv://xxx:xxx@xxx/xxx?retryWrites=true&w=majority
+AUTH_API_ADDRESSS=xxx:3000
